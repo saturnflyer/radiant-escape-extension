@@ -11,8 +11,16 @@ describe EscapeTags do
     )
   end
   
-  it "should escape the non JS safe characters" do
-    @page.should render(%{<r:escape_javascript>This is "where it's at."</r:escape_javascript>}).as('This is \"where it\'s at.\"')
+  describe "escape_javascript" do
+    it "should escape the non JS safe characters" do
+      @page.should render(%{<r:escape_javascript>This is "where it's at."</r:escape_javascript>}).as(%q{This is \"where it\'s at.\"})
+    end
+  end
+  
+  describe "escape_cgi" do
+    it "should escape non URL safe characters" do
+      @page.should render(%{<r:escape_cgi>This is "where it's at."</r:escape_cgi>}).as("This+is+%22where+it%27s+at.%22")
+    end
   end
   
 end
